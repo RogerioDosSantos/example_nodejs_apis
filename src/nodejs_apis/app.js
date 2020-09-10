@@ -20,7 +20,10 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
   var port = process.env.PORT || 10010;
   app.listen(port);
 
+  console.log('Server is Up and Running\n- To access the swagger documentation go to the following URL: http://127.0.0.1:' + port + '/docs');
   if (swaggerExpress.runner.swagger.paths['/hello']) {
-    console.log('try this:\ncurl http://127.0.0.1:' + port + '/hello?name=Scott');
+    console.log('- Call Entrypoint Example:\ncurl http://127.0.0.1:' + port + '/hello?name=Scott');
   }
+
+
 });

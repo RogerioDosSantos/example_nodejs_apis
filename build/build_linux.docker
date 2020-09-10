@@ -6,32 +6,37 @@ WORKDIR /workspace
 RUN echo "*** Installing Dependencies Required by the Packages" \
   && echo "*** Install Node dependencies - DONE" 
 
-### Install and cache app dependencies
-# COPY ./ClientSrc/package.json /workspace/package.json
-# COPY ./ClientSrc/package-lock.json /workspace/package-lock.json
-# COPY ./ClientSrc/.npmrc /workspace/.npmrc
-# RUN echo "*** Installing Node dependencies" \
-#   && npm install \
-#   && npm install --loglevel verbose \
-#   && echo "*** Install Node dependencies - DONE" 
+## Install and cache app dependencies
+COPY ./src/nodejs_apis/package.json /workspace/package.json
+COPY ./src/nodejs_apis/package-lock.json /workspace/package-lock.json
+COPY ./src/nodejs_apis/.npmrc /workspace/.npmrc
+RUN echo "*** Installing Node dependencies" \
+  && npm install \
+  # && npm install --loglevel verbose \
+  && echo "*** Install Node dependencies - DONE" 
 
-### Build Project
-# COPY ./ClientSrc/ /workspace
+## Build Project
+COPY ./src/nodejs_apis/app.js /workspace/app.js
+COPY ./src/nodejs_apis/api /workspace/api
+COPY ./src/nodejs_apis/config /workspace/config
 # RUN echo "*** Building Project" \
 #   && npm run build --prod \
 #   && echo "*** Building Project - DONE" 
 
+EXPOSE 10010
+CMD [ "node", "app.js" ]
 
-## Release
-FROM nginx:1.13.9-alpine
-# WORKDIR /workspace
-# COPY ./config/nginx_default.conf /etc/nginx/conf.d/default.conf
-# COPY --from=build /workspace/dist/iotedge /usr/share/nginx/html/portal/
-# COPY ./config/entrypoint.sh /workspace/entrypoint.sh
 
-### Start Project
-EXPOSE 80
-EXPOSE 443
-# ENTRYPOINT ["/bin/ash", "/workspace/entrypoint.sh"]
-CMD ["nginx", "-g", "daemon off;"]
+# ## Release
+# FROM nginx:1.13.9-alpine
+# # WORKDIR /workspace
+# # COPY ./config/nginx_default.conf /etc/nginx/conf.d/default.conf
+# # COPY --from=build /workspace/dist/iotedge /usr/share/nginx/html/portal/
+# # COPY ./config/entrypoint.sh /workspace/entrypoint.sh
+#
+# ### Start Project
+# EXPOSE 80
+# EXPOSE 443
+# # ENTRYPOINT ["/bin/ash", "/workspace/entrypoint.sh"]
+# CMD ["nginx", "-g", "daemon off;"]
 
