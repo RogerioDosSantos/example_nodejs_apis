@@ -26,5 +26,23 @@ Than you can connect in the following URL:
 
 [http://localhost:8000](http://localhost:8000)
 
+## How to Develop
+
+### Built-in swagger editor 
+
+From the `./src/nodejs_apis/` folder execute:
+
+```shell
+swagger project edit
+```
+
+### Start Development Server
+
+From the `./src/nodejs_apis/` folder execute:
+
+```shell
+swagger project start
+```
+
 ## Examples
 
