@@ -1,0 +1,12 @@
+version: "3"
+services:
+
+  nodejs_apis:
+    image: "rogersantos/nodejs_apis:linux"
+    build:
+      context: ../
+      dockerfile: ./build/build_linux.docker
+    stdin_open: true
+    tty: true
+    ports:
+      - "8000:80"

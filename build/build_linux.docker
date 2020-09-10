@@ -1,0 +1,37 @@
+## Build
+FROM node:11-alpine AS build
+WORKDIR /workspace
+
+### Prepare Dependencies Required by the Packages
+RUN echo "*** Installing Dependencies Required by the Packages" \
+  && echo "*** Install Node dependencies - DONE" 
+
+### Install and cache app dependencies
+# COPY ./ClientSrc/package.json /workspace/package.json
+# COPY ./ClientSrc/package-lock.json /workspace/package-lock.json
+# COPY ./ClientSrc/.npmrc /workspace/.npmrc
+# RUN echo "*** Installing Node dependencies" \
+#   && npm install \
+#   && npm install --loglevel verbose \
+#   && echo "*** Install Node dependencies - DONE" 
+
+### Build Project
+# COPY ./ClientSrc/ /workspace
+# RUN echo "*** Building Project" \
+#   && npm run build --prod \
+#   && echo "*** Building Project - DONE" 
+
+
+## Release
+FROM nginx:1.13.9-alpine
+# WORKDIR /workspace
+# COPY ./config/nginx_default.conf /etc/nginx/conf.d/default.conf
+# COPY --from=build /workspace/dist/iotedge /usr/share/nginx/html/portal/
+# COPY ./config/entrypoint.sh /workspace/entrypoint.sh
+
+### Start Project
+EXPOSE 80
+EXPOSE 443
+# ENTRYPOINT ["/bin/ash", "/workspace/entrypoint.sh"]
+CMD ["nginx", "-g", "daemon off;"]
+
